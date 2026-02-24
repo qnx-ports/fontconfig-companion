@@ -1,0 +1,44 @@
+pkgname=fontconfig
+pkgver=2.17.1
+pkgrel=1
+pkgdesc="Library for configuring and customizing font access"
+url="https://www.freedesktop.org/wiki/Software/fontconfig"
+arch="all"
+license="MIT"
+depends_dev="freetype-dev expat-dev libiconv-dev pkgconf"
+makedepends="gperf meson ninja pkgconf-dev $depends_dev"
+depends="freetype expat libiconv libexpat"
+triggers="$pkgname.trigger=/usr/share/fonts/*"
+subpackages="$pkgname-static $pkgname-dev"
+
+source="https://gitlab.freedesktop.org/$pkgname/$pkgname/-/archive/$pkgver/$pkgname-$pkgver.tar.gz
+    "
+
+# need to install docbook-utils on host
+
+build() {
+    meson setup build \
+        -Ddoc=disabled \
+        -Dtests=enabled \
+        -Diconv=enabled \
+        -Ddefault_library=both \
+        --reconfigure \
+        --buildtype=release \
+        --prefix=/usr
+
+    ninja -C build
+}
+
+check() {
+    meson test -C build
+}
+
+
+package() {
+    DESTDIR="$pkgdir" ninja -C "$builddir"/build install
+}
+
+
+sha512sums="
+8e05cad63cd0c5ca15d1359e19a605912198fcc0ec6ecc11d5a0ef596d72e795cd8128e4d350716e63cbc01612c3807b1455b8153901333790316170c9ef8e75  fontconfig-2.17.1.tar.gz
+"
