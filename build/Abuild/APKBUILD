@@ -1,6 +1,6 @@
 pkgname=fontconfig
 pkgver=2.17.1
-pkgrel=${pkgrel:-0}
+pkgrel=1
 pkgdesc="Library for configuring and customizing font access"
 url="https://www.freedesktop.org/wiki/Software/fontconfig"
 arch="all"
@@ -39,7 +39,6 @@ package() {
 }
 
 
-options="$options ${DISABLE_CHECK:+!check}"
 sha512sums="
 8e05cad63cd0c5ca15d1359e19a605912198fcc0ec6ecc11d5a0ef596d72e795cd8128e4d350716e63cbc01612c3807b1455b8153901333790316170c9ef8e75  fontconfig-2.17.1.tar.gz
 "
